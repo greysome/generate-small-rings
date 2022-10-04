@@ -1,8 +1,8 @@
 '''
 Functions to calculate the possible additive structures of an order
 n ring. Each additive structure, an abelian group, corresponds to a
-direct sum of cyclic groups of order Z_{x_i}, where (x_1,...,x_k) is a
-sequence such that x_{i+1} divides x_i and whose product is n. I call
+direct sum of cyclic groups of order x_i, where (x_1,...,x_k) is a
+sequence such that x_i divides x_{i+1} and whose product is n. I call
 such a k-tuple a **divisibility sequence**---the relevant function is
 `divseqs`.
 '''
@@ -92,13 +92,10 @@ def divseq(fp):
             else:
                 del fp[p]
         seq.append(cur)
-    return seq
+    return list(reversed(seq))
 
 '''
 Iterates through all divisiblity sequences for n.
 '''
 def divseqs(n):
-    # The reversing is so that we can use (0,...,0,1) as the multiplicative
-    # unit, since its additive order must be the greatest element of the
-    # divisibility sequence.
-    return map(lambda fp: list(reversed(divseq(fp))), factorpartitions(n))
+    return map(divseq, factorpartitions(n))
